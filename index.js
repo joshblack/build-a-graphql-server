@@ -2,17 +2,15 @@
 
 const { graphql, buildSchema } = require('graphql');
 
-/**
- * Basically build up a list of primitive types, start without using the non
- * null example and then add it in and comment out a resolver, and then fix it
- */
 const schema = buildSchema(`
-type Query {
+type Video {
   id: ID,
   title: String!,
-  # Duration of the video (in seconds)
   duration: Int,
   watched: Boolean
+}
+type Query {
+  video: Video
 }
 type Schema {
   query: Query
@@ -27,17 +25,16 @@ const video = {
 };
 
 const resolvers = {
-  id: () => 'abc',
-  title: () => 'GraphQL Fundamentals',
-  duration: () => 120,
-  watched: () => true,
+  video: () => video,
 };
 
 const query = `{
-  id,
-  title,
-  duration,
-  watched
+  video {
+    id,
+    title,
+    duration,
+    watched
+  }
 }`;
 
 graphql(schema, query, resolvers)
