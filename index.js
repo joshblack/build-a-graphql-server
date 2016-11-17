@@ -1,60 +1,34 @@
 'use strict';
 
-const express = require('express');
-const graphqlHTTP = require('express-graphql');
 const { graphql, buildSchema } = require('graphql');
 
-const PORT = process.env.PORT || 3000;
-const server = express();
-
 const schema = buildSchema(`
-type Video {
-  id: ID,
-  title: String,
-  duration: Int,
-  watched: Boolean
-}
-
+# Defines all the things that we can "start" with
+# Describes what is possibly, and perhaps more importantly what's not possible
 type Query {
-  video: Video
-  videos: [Video]
+  foo: String
 }
-
 type Schema {
   query: Query
 }
 `);
 
-const videoA = {
-  id: 'a',
-  title: 'Create a GraphQL Schema',
-  duration: 120,
-  watched: true,
-};
-const videoB = {
-  id: 'b',
-  title: 'Ember.js CLI',
-  duration: 240,
-  watched: false,
-};
-const videos = [videoA, videoB];
-
 const resolvers = {
-  video: () => ({
-    id: '1',
-    title: 'Foo',
-    duration: 180,
-    watched: true,
-  }),
-  videos: () => videos,
+  foo: () => 'bar',
 };
 
-server.use('/graphql', graphqlHTTP({
-  schema,
-  graphiql: true,
-  rootValue: resolvers,
-}));
+const query = `{ foo }`;
 
-server.listen(PORT, () => {
-  console.log(`Listening on http://localhost:${PORT}`);
-});
+/**
+ * graphql(
+ *   schema: GraphQLSchema,
+ *   requestString: string,
+ *   rootValue?: ?any, passed as root value to the executor
+ *   contextValue?: ?any,
+ *   variableValues?: ?{[key: string]: any},
+ *   operationName?: ?string
+ * ): Promise<GraphQLResult>
+ */
+graphql(schema, query, resolvers)
+  .then((result) => console.log(result))
+  .catch((error) => console.log(error));
