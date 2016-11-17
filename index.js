@@ -2,6 +2,14 @@
 
 const { graphql, buildSchema } = require('graphql');
 
+/**
+ * Just modify Query type to include the users field which is now a list of
+ * users. Then, we add the resolver to our rootValue and add in some more dummy
+ * users
+ *
+ * Now, update the query at the end to users. Note the similarity and the
+ * differences between the query types
+ */
 const schema = buildSchema(`
 type Video {
   id: ID,
@@ -11,25 +19,34 @@ type Video {
 }
 type Query {
   video: Video
+  videos: [Video]
 }
 type Schema {
   query: Query
 }
 `);
 
-const video = {
+const videoA = {
   id: 'abc',
   title: 'Create a GraphQL Schema',
   duration: 120,
   watched: true,
 };
+const videoB = {
+  id: 'def',
+  title: 'Ember.js CLI',
+  duration: 240,
+  watched: false,
+};
+const videos = [videoA, videoB];
 
 const resolvers = {
-  video: () => video,
+  video: () => videoA,
+  videos: () => videos,
 };
 
 const query = `{
-  video {
+  videos {
     id,
     title,
     duration,
@@ -40,3 +57,4 @@ const query = `{
 graphql(schema, query, resolvers)
   .then((result) => console.log(result))
   .catch((error) => console.log(error));
+
