@@ -1,0 +1,19 @@
+{
+  "name": "getting-started",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "graphql": "^14.0.2"
+  },
+  "description": null,
+  "devDependencies": {
+    "react-scripts": "1.0.0"
+  }
+}

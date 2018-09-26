@@ -7,9 +7,6 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.14.0",
-    "express-graphql": "^0.6.1",
-    "graphql": "^14.0.2",
-    "graphql-relay": "^0.5.5"
+    "graphql": "^14.0.2"
   }
 }
